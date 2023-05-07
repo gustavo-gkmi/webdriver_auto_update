@@ -6,6 +6,17 @@ import sys
 import wget
 import zipfile
 from pathlib import Path
+import winreg
+
+# open the Chrome key in the Windows Registry
+key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"SOFTWARE\Google\Chrome\BLBeacon")
+
+# get the version value from the key
+installed_chrome_version, _ = winreg.QueryValueEx(key, "version")
+installed_chrome_version_main = installed_chrome_version.split('.', 1)[0]
+
+print(f"Chrome version: {installed_chrome_version}")
+
 
 
 def download_latest_version(version_number, driver_directory):
@@ -76,12 +87,12 @@ def check_driver(driver_directory):
 
 def get_latest_chromedriver_release():
     """ 
-    Check for latest chromedriver release version online.
+    Check for latest chromedriver release version online for the installed chrome version
 
     Returns:
         str: Latest chromedriver version available for download.
     """
-    latest_release_url = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
+    latest_release_url = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_" + installed_chrome_version_main
     response = requests.get(latest_release_url)
     return response.text.strip()
 
