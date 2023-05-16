@@ -42,7 +42,7 @@ def download_latest_version(version_number, driver_directory):
     # Delete the zip file downloaded
     os.remove(latest_driver_zip)
     print(f"\nSuccessfully downloaded chromedriver version {version_number} to:\n{driver_directory}")
-    return
+    return True, installed_chrome_version, version_number, version_number
 
 
 def check_driver(driver_directory):
@@ -80,10 +80,10 @@ def check_driver(driver_directory):
         print(f"Local chromedriver version: {local_driver_version}")
         print(f"Latest online chromedriver version: {online_driver_version}")
         if local_driver_version == online_driver_version:
-            return True
+            return True, installed_chrome_version, local_driver_version, online_driver_version
         # Download the latest version if local driver is outdated
-        download_latest_version(online_driver_version, driver_directory)
-
+        else:
+            return download_latest_version(online_driver_version, driver_directory)
 
 def get_latest_chromedriver_release():
     """ 
