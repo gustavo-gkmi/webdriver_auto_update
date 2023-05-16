@@ -83,7 +83,8 @@ def check_driver(driver_directory):
             return True, installed_chrome_version, local_driver_version, online_driver_version
         # Download the latest version if local driver is outdated
         else:
-            return download_latest_version(online_driver_version, driver_directory)
+            download_latest_version(online_driver_version, driver_directory)
+            return True, installed_chrome_version, local_driver_version, online_driver_version
 
 def get_latest_chromedriver_release():
     """ 
